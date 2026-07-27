@@ -1,586 +1,371 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Anti-Bullying | Conscientização & Apoio</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-  :root {
-    --bg: #0a0e17;
-    --card: rgba(255,255,255,0.05);
-    --border: rgba(255,255,255,0.1);
-    --primary: #6366f1;
-    --primary-glow: #818cf8;
-    --accent: #22d3ee;
-    --danger: #f43f5e;
-    --success: #10b981;
-    --text: #e2e8f0;
-    --muted: #94a3b8;
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* Animated background */
-  .bg-animation {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    background: radial-gradient(ellipse at 20% 50%, rgba(99,102,241,0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(34,211,238,0.1) 0%, transparent 40%),
-                radial-gradient(ellipse at 50% 80%, rgba(244,63,94,0.08) 0%, transparent 40%);
-  }
-
-  header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    backdrop-filter: blur(16px);
-    background: rgba(10,14,23,0.85);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .logo {
-    font-weight: 800;
-    font-size: 1.4rem;
-    background: linear-gradient(90deg, var(--primary-glow), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  nav a {
-    color: var(--muted);
-    text-decoration: none;
-    margin-left: 1.5rem;
-    font-weight: 500;
-    transition: color 0.3s;
-  }
-  nav a:hover { color: var(--accent); }
-
-  .hero {
-    min-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 4rem 1.5rem;
-  }
-
-  .hero h1 {
-    font-size: clamp(2.5rem, 6vw, 4.2rem);
-    font-weight: 800;
-    line-height: 1.15;
-    margin-bottom: 1.2rem;
-    background: linear-gradient(135deg, #fff 0%, var(--primary-glow) 50%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero p {
-    max-width: 620px;
-    color: var(--muted);
-    font-size: 1.15rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.9rem 1.8rem;
-    border-radius: 9999px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-size: 1rem;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, var(--primary), #4f46e5);
-    color: white;
-    box-shadow: 0 0 30px rgba(99,102,241,0.4);
-  }
-  .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 40px rgba(99,102,241,0.6);
-  }
-
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-    margin-left: 1rem;
-  }
-  .btn-outline:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  section {
-    padding: 5rem 1.5rem;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  h2 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-
-  .subtitle {
-    text-align: center;
-    color: var(--muted);
-    max-width: 600px;
-    margin: 0 auto 3rem;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 1.25rem;
-    padding: 1.8rem;
-    backdrop-filter: blur(12px);
-    transition: transform 0.3s, border-color 0.3s;
-  }
-  .card:hover {
-    transform: translateY(-6px);
-    border-color: var(--primary);
-  }
-
-  .card h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.7rem;
-    color: var(--accent);
-  }
-
-  /* Quiz & Test containers */
-  .quiz-box, .test-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 1.5rem;
-    padding: 2.5rem;
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .question {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-  }
-
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .option {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    border-radius: 0.9rem;
-    padding: 1rem 1.2rem;
-    cursor: pointer;
-    transition: all 0.25s;
-  }
-  .option:hover { border-color: var(--primary); background: rgba(99,102,241,0.1); }
-  .option.selected { border-color: var(--primary); background: rgba(99,102,241,0.2); }
-  .option.correct { border-color: var(--success); background: rgba(16,185,129,0.15); }
-  .option.wrong { border-color: var(--danger); background: rgba(244,63,94,0.15); }
-
-  .progress-bar {
-    height: 6px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 99px;
-    margin-bottom: 2rem;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    width: 0%;
-    transition: width 0.4s ease;
-  }
-
-  /* Modal / Pop-up */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(8px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s;
-  }
-  .modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .modal {
-    background: #111827;
-    border: 1px solid var(--border);
-    border-radius: 1.5rem;
-    padding: 2.5rem;
-    max-width: 480px;
-    width: 90%;
-    text-align: center;
-    transform: scale(0.9);
-    transition: transform 0.3s;
-  }
-  .modal-overlay.active .modal { transform: scale(1); }
-
-  .modal h3 { font-size: 1.5rem; margin-bottom: 1rem; }
-  .modal p { color: var(--muted); margin-bottom: 1.8rem; }
-
-  footer {
-    text-align: center;
-    padding: 3rem 1.5rem;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-
-  .disclaimer {
-    background: rgba(244,63,94,0.1);
-    border: 1px solid rgba(244,63,94,0.3);
-    border-radius: 1rem;
-    padding: 1.2rem;
-    margin: 1.5rem 0;
-    font-size: 0.95rem;
-  }
-
-  @media (max-width: 640px) {
-    nav { display: none; }
-    .btn-outline { margin-left: 0; margin-top: 1rem; }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AntiBullying | Conscientização Tecnológica</title>
+  <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-<div class="bg-animation"></div>
-
-<!-- Welcome Modal -->
-<div class="modal-overlay active" id="welcomeModal">
-  <div class="modal">
-    <h3>Bem-vindo(a)</h3>
-    <p>Este site existe para conscientizar sobre o bullying e oferecer apoio. Aqui você encontra informações, um quiz interativo e um teste rápido de reflexão emocional.</p>
-    <button class="btn btn-primary" onclick="closeModal('welcomeModal')">Começar</button>
-  </div>
-</div>
-
-<!-- Result Modal -->
-<div class="modal-overlay" id="resultModal">
-  <div class="modal">
-    <h3 id="resultTitle">Resultado</h3>
-    <p id="resultText"></p>
-    <button class="btn btn-primary" onclick="closeModal('resultModal')">Fechar</button>
-  </div>
-</div>
-
-<header>
-  <div class="logo">AntiBullying</div>
-  <nav>
-    <a href="#tipos">Tipos</a>
-    <a href="#impacto">Impacto</a>
-    <a href="#quiz">Quiz</a>
-    <a href="#teste">Teste</a>
-    <a href="#ajuda">Ajuda</a>
-  </nav>
-</header>
-
-<section class="hero">
-  <h1>Juntos contra o Bullying</h1>
-  <p>Conhecimento, empatia e ação são as melhores armas para acabar com o bullying. Aprenda, teste seus conhecimentos e encontre apoio.</p>
-  <div>
-    <button class="btn btn-primary" onclick="document.getElementById('quiz').scrollIntoView({behavior:'smooth'})">Fazer o Quiz</button>
-    <button class="btn btn-outline" onclick="document.getElementById('teste').scrollIntoView({behavior:'smooth'})">Teste Rápido</button>
-  </div>
-</section>
-
-<section id="tipos">
-  <h2>O que é Bullying?</h2>
-  <p class="subtitle">Bullying é um comportamento agressivo, intencional e repetitivo que causa sofrimento a outra pessoa. Pode acontecer em qualquer lugar, inclusive online.</p>
-  
-  <div class="grid">
-    <div class="card">
-      <h3>Físico</h3>
-      <p>Agressões físicas, empurrões, chutes, roubo de pertences ou qualquer contato que cause dor.</p>
-    </div>
-    <div class="card">
-      <h3>Verbal</h3>
-      <p>Xingamentos, humilhações, apelidos pejorativos, ameaças e comentários depreciativos.</p>
-    </div>
-    <div class="card">
-      <h3>Social / Relacional</h3>
-      <p>Exclusão, fofocas, manipulação de amizades e isolamento intencional da vítima.</p>
-    </div>
-    <div class="card">
-      <h3>Cyberbullying</h3>
-      <p>Ameaças, exposição, memes humilhantes e perseguição através de redes sociais, jogos ou mensagens.</p>
-    </div>
-  </div>
-</section>
-
-<section id="impacto">
-  <h2>Impactos do Bullying</h2>
-  <p class="subtitle">O bullying deixa marcas profundas que podem afetar a vida de uma pessoa por anos.</p>
-  <div class="grid">
-    <div class="card">
-      <h3>Emocional</h3>
-      <p>Ansiedade, baixa autoestima, depressão, medo constante e sentimento de solidão.</p>
-    </div>
-    <div class="card">
-      <h3>Acadêmico</h3>
-      <p>Queda no rendimento escolar, falta de concentração e abandono dos estudos.</p>
-    </div>
-    <div class="card">
-      <h3>Físico</h3>
-      <p>Dores de cabeça, problemas de sono, sintomas psicossomáticos e, em casos graves, lesões.</p>
-    </div>
-    <div class="card">
-      <h3>Social</h3>
-      <p>Dificuldade de confiar nas pessoas e de formar relacionamentos saudáveis no futuro.</p>
-    </div>
-  </div>
-</section>
-
-<!-- QUIZ -->
-<section id="quiz">
-  <h2>Quiz de Conscientização</h2>
-  <p class="subtitle">Teste seus conhecimentos sobre bullying. Responda com sinceridade.</p>
-  
-  <div class="quiz-box" id="quizContainer">
-    <div class="progress-bar"><div class="progress-fill" id="quizProgress"></div></div>
-    <div id="quizContent"></div>
-  </div>
-</section>
-
-<!-- TESTE DE DEPRESSÃO -->
-<section id="teste">
-  <h2>Teste Rápido de Reflexão Emocional</h2>
-  <p class="subtitle">Este é apenas um instrumento de auto-reflexão. Não substitui avaliação profissional.</p>
-  
-  <div class="disclaimer">
-    <strong>Importante:</strong> Este teste não diagnostica depressão. Se você estiver em sofrimento, procure ajuda imediatamente. No Brasil você pode ligar para o CVV 188 (gratuito e confidencial).
+  <div class="bg-grid"></div>
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
   </div>
 
-  <div class="test-box" id="testContainer">
-    <div class="progress-bar"><div class="progress-fill" id="testProgress"></div></div>
-    <div id="testContent"></div>
+  <!-- HEADER -->
+  <header>
+    <a href="#inicio" class="logo">ANTI•BULLYING</a>
+    <nav>
+      <a href="#inicio" class="active">Início</a>
+      <a href="#tipos">Tipos</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#teste">Teste</a>
+      <a href="#ajuda">Ajuda</a>
+    </nav>
+  </header>
+
+  <!-- ========== 1. INTRODUÇÃO ========== -->
+  <section class="hero page-enter" id="inicio">
+    <div class="hero-badge">
+      <span>⚡</span> Plataforma de Conscientização
+    </div>
+
+    <h1>Juntos contra<br>o Bullying</h1>
+
+    <p class="hero-desc">
+      Este é um espaço tecnológico e interativo criado para educar, conscientizar e apoiar 
+      vítimas, testemunhas e toda a comunidade. Aqui você encontra informações claras, 
+      um quiz de conhecimentos e um teste rápido de reflexão emocional — tudo com 
+      design moderno e interações avançadas.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#tipos" class="btn btn-primary">Explorar o Site →</a>
+      <a href="#quiz" class="btn btn-outline">Fazer o Quiz</a>
+    </div>
+
+    <div class="scroll-hint">
+      <span>mova o mouse</span>
+      <span>↓</span>
+    </div>
+  </section>
+
+  <!-- ========== 2. TIPOS ========== -->
+  <section id="tipos">
+    <h2>O que é Bullying?</h2>
+    <p class="subtitle">
+      Bullying é um comportamento agressivo, intencional e repetitivo que causa sofrimento 
+      a outra pessoa. Pode acontecer em qualquer lugar — inclusive online.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>👊 Físico</h3>
+        <p>Agressões físicas, empurrões, chutes, roubo de pertences ou qualquer contato que cause dor ou intimidação.</p>
+      </div>
+      <div class="card">
+        <h3>🗣️ Verbal</h3>
+        <p>Xingamentos, humilhações, apelidos pejorativos, ameaças e comentários depreciativos repetidos.</p>
+      </div>
+      <div class="card">
+        <h3>👥 Social / Relacional</h3>
+        <p>Exclusão, fofocas, manipulação de amizades e isolamento intencional da vítima do grupo.</p>
+      </div>
+      <div class="card">
+        <h3>💻 Cyberbullying</h3>
+        <p>Ameaças, exposição, memes humilhantes e perseguição através de redes sociais, jogos ou mensagens.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 3. IMPACTO ========== -->
+  <section id="impacto">
+    <h2>Impactos do Bullying</h2>
+    <p class="subtitle">
+      O bullying deixa marcas profundas que podem afetar a vida de uma pessoa por anos. 
+      Conhecer esses efeitos é o primeiro passo para prevenir e ajudar.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🧠 Emocional</h3>
+        <p>Ansiedade, baixa autoestima, depressão, medo constante, sentimento de solidão e vergonha.</p>
+      </div>
+      <div class="card">
+        <h3>📚 Acadêmico</h3>
+        <p>Queda no rendimento escolar, falta de concentração, evasão e abandono dos estudos.</p>
+      </div>
+      <div class="card">
+        <h3>🫀 Físico</h3>
+        <p>Dores de cabeça, problemas de sono, sintomas psicossomáticos e, em casos graves, lesões.</p>
+      </div>
+      <div class="card">
+        <h3>🤝 Social</h3>
+        <p>Dificuldade de confiar nas pessoas e de formar relacionamentos saudáveis no futuro.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 4. QUIZ ========== -->
+  <section id="quiz">
+    <h2>Quiz de Conscientização</h2>
+    <p class="subtitle">Teste seus conhecimentos sobre bullying. Responda com sinceridade e aprenda no processo.</p>
+
+    <div class="quiz-box" id="quizContainer">
+      <div class="progress-bar"><div class="progress-fill" id="quizProgress"></div></div>
+      <div id="quizContent"></div>
+    </div>
+  </section>
+
+  <!-- ========== 5. TESTE ========== -->
+  <section id="teste">
+    <h2>Teste Rápido de Reflexão Emocional</h2>
+    <p class="subtitle">
+      Este é apenas um instrumento de auto-reflexão. <strong>Não substitui</strong> avaliação profissional.
+    </p>
+
+    <div class="disclaimer">
+      <strong>Importante:</strong> Este teste não diagnostica depressão. Se você estiver em sofrimento, 
+      procure ajuda imediatamente. No Brasil você pode ligar para o <strong>CVV 188</strong> 
+      (gratuito, confidencial e 24 horas).
+    </div>
+
+    <div class="test-box" id="testContainer">
+      <div class="progress-bar"><div class="progress-fill" id="testProgress"></div></div>
+      <div id="testContent"></div>
+    </div>
+  </section>
+
+  <!-- ========== 6. AJUDA ========== -->
+  <section id="ajuda">
+    <h2>Como Ajudar e Onde Buscar Apoio</h2>
+    <p class="subtitle">
+      Ninguém precisa enfrentar o bullying sozinho. Veja o que você pode fazer e onde encontrar ajuda real.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🛡️ Se você é vítima</h3>
+        <p>
+          Converse com alguém de confiança (pais, professor, amigo). 
+          Guarde evidências (prints, mensagens). Você não está sozinho(a) e não é culpa sua.
+        </p>
+      </div>
+      <div class="card">
+        <h3>👁️ Se você é testemunha</h3>
+        <p>
+          Não ignore. Apoie a vítima, denuncie e não participe de comentários ou compartilhamentos. 
+          O silêncio fortalece o agressor.
+        </p>
+      </div>
+      <div class="card">
+        <h3>👨‍👩‍👧 Pais e responsáveis</h3>
+        <p>
+          Ouça sem julgar. Observe mudanças de comportamento. Converse com a escola e, se necessário, 
+          busque apoio psicológico.
+        </p>
+      </div>
+      <div class="card">
+        <h3>📞 Recursos de Ajuda</h3>
+        <p>
+          • <strong>CVV</strong> – 188 (24h, gratuito)<br>
+          • <strong>Disque 100</strong> – Direitos Humanos<br>
+          • <strong>SaferNet</strong> – cyberbullying<br>
+          • Psicólogo escolar / CAPS
+        </p>
+      </div>
+    </div>
+
+    <div class="disclaimer" style="margin-top: 3rem;">
+      <strong>Em crise?</strong> Ligue imediatamente para o <strong>188 (CVV)</strong> ou procure o serviço de emergência mais próximo. 
+      Sua vida importa.
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Site com finalidade educativa e de conscientização.</p>
+    <p style="margin-top:0.6rem">Em caso de crise: <strong>CVV 188</strong> (24h, gratuito e confidencial)</p>
+  </footer>
+
+  <!-- RESULT MODAL (compartilhado) -->
+  <div class="modal-overlay" id="resultModal">
+    <div class="modal">
+      <h3 id="resultTitle">Resultado</h3>
+      <p id="resultText"></p>
+      <button class="btn btn-primary" onclick="closeModal('resultModal')">Fechar</button>
+    </div>
   </div>
-</section>
 
-<section id="ajuda">
-  <h2>Como Ajudar e Onde Buscar Apoio</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Se você é vítima</h3>
-      <p>Converse com alguém de confiança. Guarde evidências (prints). Você não está sozinho(a).</p>
-    </div>
-    <div class="card">
-      <h3>Se você é testemunha</h3>
-      <p>Não ignore. Apoie a vítima e denuncie. O silêncio fortalece o agressor.</p>
-    </div>
-    <div class="card">
-      <h3>Recursos</h3>
-      <p>
-        • CVV – 188<br>
-        • Disque 100 (Direitos Humanos)<br>
-        • SaferNet (cyberbullying)<br>
-        • Psicólogo escolar / CAPS
-      </p>
-    </div>
-  </div>
-</section>
+  <script src="assets/main.js"></script>
+  <script>
+    /* ========== NAV ACTIVE ON SCROLL ========== */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a');
 
-<footer>
-  <p>Este site tem finalidade educativa. Em caso de crise, procure ajuda profissional imediatamente.</p>
-  <p style="margin-top:0.8rem">Feito com propósito de conscientização • 2025</p>
-</footer>
-
-<script>
-  // ========== QUIZ DATA ==========
-  const quizQuestions = [
-    {
-      q: "O que caracteriza o bullying?",
-      options: ["Uma briga isolada", "Agressão intencional e repetida", "Qualquer discussão", "Apenas violência física"],
-      correct: 1
-    },
-    {
-      q: "Cyberbullying ocorre principalmente onde?",
-      options: ["Apenas na escola", "Em redes sociais, jogos e mensagens", "Somente por e-mail", "Só entre adultos"],
-      correct: 1
-    },
-    {
-      q: "Qual atitude é recomendada se você sofrer bullying?",
-      options: ["Guardar tudo para si", "Revidar com violência", "Contar para um adulto de confiança", "Ignorar para sempre"],
-      correct: 2
-    },
-    {
-      q: "Excluir alguém do grupo de propósito é um tipo de:",
-      options: ["Bullying físico", "Bullying social/relacional", "Brincadeira normal", "Cyberbullying"],
-      correct: 1
-    },
-    {
-      q: "O bullying pode causar:",
-      options: ["Apenas raiva momentânea", "Depressão, ansiedade e queda no rendimento", "Nada sério", "Só problemas físicos"],
-      correct: 1
-    },
-    {
-      q: "O que um espectador deve fazer?",
-      options: ["Rir junto", "Fingir que não viu", "Apoiar a vítima e denunciar", "Gravar para postar"],
-      correct: 2
-    }
-  ];
-
-  let currentQ = 0;
-  let score = 0;
-
-  function loadQuiz() {
-    if (currentQ >= quizQuestions.length) {
-      showResult(score, quizQuestions.length, "quiz");
-      return;
-    }
-    const q = quizQuestions[currentQ];
-    document.getElementById("quizProgress").style.width = ((currentQ / quizQuestions.length) * 100) + "%";
-    
-    let html = `<div class="question">${currentQ + 1}. ${q.q}</div><div class="options">`;
-    q.options.forEach((opt, i) => {
-      html += `<div class="option" onclick="selectOption(${i})">${opt}</div>`;
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 120;
+        if (scrollY >= top) current = sec.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
     });
-    html += `</div>`;
-    document.getElementById("quizContent").innerHTML = html;
-  }
 
-  function selectOption(index) {
-    const q = quizQuestions[currentQ];
-    const options = document.querySelectorAll("#quizContent .option");
-    options.forEach(o => o.style.pointerEvents = "none");
-    
-    if (index === q.correct) {
-      options[index].classList.add("correct");
-      score++;
-    } else {
-      options[index].classList.add("wrong");
-      options[q.correct].classList.add("correct");
+    /* ========== QUIZ ========== */
+    const quizQuestions = [
+      {
+        q: "O que caracteriza o bullying?",
+        options: ["Uma briga isolada", "Agressão intencional e repetida", "Qualquer discussão", "Apenas violência física"],
+        correct: 1
+      },
+      {
+        q: "Cyberbullying ocorre principalmente onde?",
+        options: ["Apenas na escola", "Em redes sociais, jogos e mensagens", "Somente por e-mail", "Só entre adultos"],
+        correct: 1
+      },
+      {
+        q: "Qual atitude é recomendada se você sofrer bullying?",
+        options: ["Guardar tudo para si", "Revidar com violência", "Contar para um adulto de confiança", "Ignorar para sempre"],
+        correct: 2
+      },
+      {
+        q: "Excluir alguém do grupo de propósito é um tipo de:",
+        options: ["Bullying físico", "Bullying social/relacional", "Brincadeira normal", "Cyberbullying"],
+        correct: 1
+      },
+      {
+        q: "O bullying pode causar:",
+        options: ["Apenas raiva momentânea", "Depressão, ansiedade e queda no rendimento", "Nada sério", "Só problemas físicos"],
+        correct: 1
+      },
+      {
+        q: "O que um espectador deve fazer?",
+        options: ["Rir junto", "Fingir que não viu", "Apoiar a vítima e denunciar", "Gravar para postar"],
+        correct: 2
+      }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+
+    function loadQuiz() {
+      if (currentQ >= quizQuestions.length) {
+        showQuizResult(score, quizQuestions.length);
+        return;
+      }
+      const q = quizQuestions[currentQ];
+      document.getElementById("quizProgress").style.width = ((currentQ / quizQuestions.length) * 100) + "%";
+
+      let html = `<div class="question">${currentQ + 1}. ${q.q}</div><div class="options">`;
+      q.options.forEach((opt, i) => {
+        html += `<div class="option" onclick="selectOption(${i})">${opt}</div>`;
+      });
+      html += `</div>`;
+      document.getElementById("quizContent").innerHTML = html;
     }
-    
-    setTimeout(() => {
-      currentQ++;
-      loadQuiz();
-    }, 1200);
-  }
 
-  // ========== TESTE DEPRESSÃO (simplificado) ==========
-  const testQuestions = [
-    { q: "Nas últimas 2 semanas, com que frequência você se sentiu pouco interesse ou prazer em fazer as coisas?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] },
-    { q: "Nas últimas 2 semanas, com que frequência você se sentiu para baixo, deprimido(a) ou sem esperança?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] },
-    { q: "Você tem tido dificuldade para dormir ou dormido demais?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] },
-    { q: "Você tem se sentido cansado(a) ou com pouca energia?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] },
-    { q: "Você tem tido pensamentos de que seria melhor estar morto(a) ou de se machucar de alguma forma?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] }
-  ];
+    function selectOption(index) {
+      const q = quizQuestions[currentQ];
+      const options = document.querySelectorAll("#quizContent .option");
+      options.forEach(o => o.style.pointerEvents = "none");
 
-  let currentT = 0;
-  let testScore = 0;
+      if (index === q.correct) {
+        options[index].classList.add("correct");
+        score++;
+      } else {
+        options[index].classList.add("wrong");
+        options[q.correct].classList.add("correct");
+      }
 
-  function loadTest() {
-    if (currentT >= testQuestions.length) {
-      showDepressionResult(testScore);
-      return;
+      setTimeout(() => {
+        currentQ++;
+        loadQuiz();
+      }, 1100);
     }
-    const q = testQuestions[currentT];
-    document.getElementById("testProgress").style.width = ((currentT / testQuestions.length) * 100) + "%";
-    
-    let html = `<div class="question">${currentT + 1}. ${q.q}</div><div class="options">`;
-    q.options.forEach((opt, i) => {
-      html += `<div class="option" onclick="selectTestOption(${i})">${opt}</div>`;
-    });
-    html += `</div>`;
-    document.getElementById("testContent").innerHTML = html;
-  }
 
-  function selectTestOption(index) {
-    testScore += index; // 0 a 3 pontos por pergunta
-    currentT++;
+    function showQuizResult(score, total) {
+      const percent = Math.round((score / total) * 100);
+      let msg = "";
+      if (percent >= 80) msg = "Excelente! Você tem ótimo conhecimento sobre o tema. Continue espalhando conscientização.";
+      else if (percent >= 50) msg = "Bom resultado! Continue aprendendo. O conhecimento é a melhor arma contra o bullying.";
+      else msg = "Que tal revisar as seções do site? Cada informação ajuda a combater o bullying.";
+
+      document.getElementById("resultTitle").textContent = `Você acertou ${score} de ${total}`;
+      document.getElementById("resultText").textContent = msg;
+      document.getElementById("resultModal").classList.add("active");
+
+      currentQ = 0;
+      score = 0;
+      setTimeout(loadQuiz, 400);
+    }
+
+    /* ========== TESTE EMOCIONAL ========== */
+    const testQuestions = [
+      { q: "Nas últimas 2 semanas, com que frequência você se sentiu pouco interesse ou prazer em fazer as coisas?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] },
+      { q: "Nas últimas 2 semanas, com que frequência você se sentiu para baixo, deprimido(a) ou sem esperança?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] },
+      { q: "Você tem tido dificuldade para dormir ou dormido demais?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] },
+      { q: "Você tem se sentido cansado(a) ou com pouca energia?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] },
+      { q: "Você tem tido pensamentos de que seria melhor estar morto(a) ou de se machucar de alguma forma?", options: ["Nenhuma vez", "Vários dias", "Mais da metade dos dias", "Quase todos os dias"] }
+    ];
+
+    let currentT = 0;
+    let testScore = 0;
+
+    function loadTest() {
+      if (currentT >= testQuestions.length) {
+        showDepressionResult(testScore);
+        return;
+      }
+      const q = testQuestions[currentT];
+      document.getElementById("testProgress").style.width = ((currentT / testQuestions.length) * 100) + "%";
+
+      let html = `<div class="question">${currentT + 1}. ${q.q}</div><div class="options">`;
+      q.options.forEach((opt, i) => {
+        html += `<div class="option" onclick="selectTestOption(${i})">${opt}</div>`;
+      });
+      html += `</div>`;
+      document.getElementById("testContent").innerHTML = html;
+    }
+
+    function selectTestOption(index) {
+      testScore += index;
+      currentT++;
+      loadTest();
+    }
+
+    function showDepressionResult(score) {
+      let title, text;
+      if (score <= 4) {
+        title = "Resultado: Baixo";
+        text = "Suas respostas indicam poucos sintomas neste momento. Continue cuidando da sua saúde mental. Se algo mudar, não hesite em buscar ajuda.";
+      } else if (score <= 9) {
+        title = "Resultado: Moderado";
+        text = "Alguns sintomas apareceram. É importante conversar com alguém de confiança ou um profissional. O CVV 188 está disponível 24h.";
+      } else {
+        title = "Resultado: Atenção necessária";
+        text = "Suas respostas sugerem sofrimento significativo. Por favor, procure ajuda profissional o mais rápido possível. Ligue 188 (CVV) agora se precisar conversar.";
+      }
+      document.getElementById("resultTitle").textContent = title;
+      document.getElementById("resultText").innerHTML = text + "<br><br><strong>Lembre-se: este não é um diagnóstico médico.</strong>";
+      document.getElementById("resultModal").classList.add("active");
+
+      currentT = 0;
+      testScore = 0;
+      setTimeout(loadTest, 400);
+    }
+
+    // Init
+    loadQuiz();
     loadTest();
-  }
-
-  function showDepressionResult(score) {
-    let title, text;
-    if (score <= 4) {
-      title = "Resultado: Baixo";
-      text = "Seus respostas indicam poucos sintomas neste momento. Continue cuidando da sua saúde mental. Se algo mudar, não hesite em buscar ajuda.";
-    } else if (score <= 9) {
-      title = "Resultado: Moderado";
-      text = "Alguns sintomas apareceram. É importante conversar com alguém de confiança ou um profissional. O CVV 188 está disponível 24h.";
-    } else {
-      title = "Resultado: Atenção necessária";
-      text = "Seus respostas sugerem sofrimento significativo. Por favor, procure ajuda profissional o mais rápido possível. Ligue 188 (CVV) agora se precisar conversar.";
-    }
-    document.getElementById("resultTitle").textContent = title;
-    document.getElementById("resultText").innerHTML = text + "<br><br><strong>Lembre-se: este não é um diagnóstico médico.</strong>";
-    document.getElementById("resultModal").classList.add("active");
-    
-    // reset
-    currentT = 0;
-    testScore = 0;
-    setTimeout(loadTest, 500);
-  }
-
-  function showResult(score, total, type) {
-    const percent = Math.round((score / total) * 100);
-    let msg = "";
-    if (percent >= 80) msg = "Excelente! Você tem ótimo conhecimento sobre o tema.";
-    else if (percent >= 50) msg = "Bom resultado! Continue aprendendo e espalhando conscientização.";
-    else msg = "Que tal revisar as seções do site? O conhecimento é a melhor arma contra o bullying.";
-    
-    document.getElementById("resultTitle").textContent = `Você acertou ${score} de ${total}`;
-    document.getElementById("resultText").textContent = msg;
-    document.getElementById("resultModal").classList.add("active");
-    
-    currentQ = 0;
-    score = 0;
-    setTimeout(loadQuiz, 500);
-  }
-
-  function closeModal(id) {
-    document.getElementById(id).classList.remove("active");
-  }
-
-  // Init
-  loadQuiz();
-  loadTest();
-</script>
+  </script>
 </body>
 </html>
